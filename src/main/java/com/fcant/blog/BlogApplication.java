@@ -1,21 +1,16 @@
 package com.fcant.blog;
 
+import com.fcant.blog.netty.server.NettyServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 
 @SpringBootApplication
 public class BlogApplication {
 
-    public static void main(String[] args) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+    public static void main(String[] args) throws Exception {
         SpringApplication.run(BlogApplication.class, args);
+        NettyServer nettyServer = new NettyServer();
+        nettyServer.run();
     }
 
 }
