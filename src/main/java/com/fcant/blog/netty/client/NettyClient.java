@@ -2,9 +2,7 @@ package com.fcant.blog.netty.client;
 
 import com.fcant.blog.netty.client.handler.MessageClientHandler;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -27,8 +25,9 @@ public class NettyClient {
         try {
             Bootstrap b = new Bootstrap();
             b.group(workerGroup);
-//            b.option(ChannelOption.TCP_NODELAY, false);
+            b.option(ChannelOption.TCP_NODELAY, false);
             b.channel(NioSocketChannel.class);
+            b.option(ChannelOption.RCVBUF_ALLOCATOR, new FixedRecvByteBufAllocator(1024*1024)); //这行配置比较重要;
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
