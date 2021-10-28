@@ -6,6 +6,7 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.FixedLengthFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +20,10 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class NettyClient {
-    String host = "localhost";
-    public void run() throws Exception {
+    String host = "47.100.236.1";
+    public String run(String msg) {
         EventLoopGroup workerGroup = new NioEventLoopGroup();
+        MessageClientHandler messageClientHandler = new MessageClientHandler(msg);
         try {
             Bootstrap b = new Bootstrap();
             b.group(workerGroup);
@@ -32,8 +34,9 @@ public class NettyClient {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
                     ch.pipeline().addLast(new StringEncoder());
+                    ch.pipeline().addLast(new FixedLengthFrameDecoder(96512));
                     ch.pipeline().addLast(new StringDecoder());
-                    ch.pipeline().addLast(new MessageClientHandler());
+                    ch.pipeline().addLast(messageClientHandler);
                 }
             });
             // 开启客户端.
@@ -41,8 +44,12 @@ public class NettyClient {
             ChannelFuture f = b.connect(host, port).sync();
             // 等到连接关闭.
             f.channel().closeFuture().sync();
+            return messageClientHandler.getResult();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } finally {
             workerGroup.shutdownGracefully();
         }
+        return "";
     }
 }

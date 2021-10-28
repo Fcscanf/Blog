@@ -11,9 +11,7 @@ import com.fcant.blog.netty.client.NettyClient;
  */
 public class Run {
     public static void main(String[] args) throws Exception {
-//        Process exec = Runtime.getRuntime().exec("javac --help");
-//        Cipher.getInstance("");
         NettyClient nettyClient = new NettyClient();
-        nettyClient.run();
+        nettyClient.run("");
     }
 }
