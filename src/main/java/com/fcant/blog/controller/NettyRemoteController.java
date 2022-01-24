@@ -1,6 +1,8 @@
 package com.fcant.blog.controller;
 
 import com.fcant.blog.netty.client.NettyClient;
+import com.fcant.blog.utils.NettyServerUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/netty")
 public class NettyRemoteController {
 
+    @Autowired
+    NettyServerUtils nettyServerUtils;
+
     @GetMapping
     public ResponseEntity<String> hello(@RequestParam String msg) throws IOException {
         NettyClient nettyClient = new NettyClient();
@@ -33,5 +38,11 @@ public class NettyRemoteController {
         String content = new BufferedReader(new InputStreamReader(inputStream)).lines().collect(Collectors.joining("\n"));
         String result = nettyClient.run(content);
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/run")
+    public ResponseEntity<String> ServerRun() throws Exception {
+        nettyServerUtils.ServerRun();
+        return ResponseEntity.ok("success");
     }
 }

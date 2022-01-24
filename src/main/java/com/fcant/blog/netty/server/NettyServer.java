@@ -19,6 +19,13 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class NettyServer {
+
+    private Integer port;
+
+    public NettyServer(Integer port) {
+        this.port = port;
+    }
+
     public void run() throws Exception {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -36,7 +43,6 @@ public class NettyServer {
                         }
                     });
 
-            int port = 9000;
             ChannelFuture f = b.bind(port).sync();
             log.info("Server Started on {}...", port);
             f.channel().closeFuture().sync();

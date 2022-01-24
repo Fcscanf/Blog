@@ -25,7 +25,7 @@ public class SocketClient {
     public static void main(String[] args) {
         ByteBuf buffer = Unpooled.buffer();
         try (
-                 Socket socket = new Socket("localhost", 9000);
+                 Socket socket = new Socket("47.100.236.1", 9000);
                  OutputStream outputStream = socket.getOutputStream();
                  InputStream inputStream = socket.getInputStream();
              )
