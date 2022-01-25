@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class NettyClient {
-    String host = "47.100.236.1";
+    String host = "localhost";
     public String run(String msg) {
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         MessageClientHandler messageClientHandler = new MessageClientHandler(msg);
@@ -40,7 +40,7 @@ public class NettyClient {
                 }
             });
             // 开启客户端.
-            int port = 9000;
+            int port = 9011;
             ChannelFuture f = b.connect(host, port).sync();
             // 等到连接关闭.
             f.channel().closeFuture().sync();

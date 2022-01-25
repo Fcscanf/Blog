@@ -40,6 +40,7 @@ public class NettyServerUtils {
             try {
                 nettyServer.run();
             } catch (Exception e) {
+                log.error("NettyServerUtils.ServerRun() error:{}", e.getMessage());
                 e.printStackTrace();
             }
         });

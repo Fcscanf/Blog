@@ -9,9 +9,9 @@ import com.fcant.blog.netty.client.NettyClient;
  *
  * @author Fcant 上午 11:44 2021/10/20/0020
  */
-public class Run {
+public class NettyClientRun {
     public static void main(String[] args) throws Exception {
         NettyClient nettyClient = new NettyClient();
-        nettyClient.run("");
+        nettyClient.run("9014");
     }
 }
