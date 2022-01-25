@@ -1,5 +1,6 @@
 package com.fcant.blog.netty.server;
 
+import com.fcant.blog.netty.server.handler.CommandHandler;
 import com.fcant.blog.netty.server.handler.MessageServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -40,6 +41,7 @@ public class NettyServer {
                         public void initChannel(SocketChannel ch) throws Exception {
                             ch.pipeline().addLast(new StringEncoder());
                             ch.pipeline().addLast(new StringDecoder());
+                            ch.pipeline().addLast(new CommandHandler());
                             ch.pipeline().addLast(new MessageServerHandler());
                         }
                     });
