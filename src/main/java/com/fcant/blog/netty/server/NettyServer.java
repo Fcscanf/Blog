@@ -26,7 +26,8 @@ public class NettyServer {
         this.port = port;
     }
 
-    public void run() throws Exception {
+    public boolean run() {
+        boolean result = false;
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -44,11 +45,27 @@ public class NettyServer {
                     });
 
             ChannelFuture f = b.bind(port).sync();
-            log.info("Server Started on {}...", port);
-            f.channel().closeFuture().sync();
-        } finally {
-            workerGroup.shutdownGracefully();
-            bossGroup.shutdownGracefully();
+            if (f.isSuccess()) {
+                result = true;
+                log.info("Server Started on {}...", port);
+            }
+            f.channel().closeFuture().addListener(new ChannelFutureListener()
+            {
+                @Override public void operationComplete(ChannelFuture future) throws Exception
+                {       //通过回调只关闭自己监听的channel
+                    future.channel().close();
+                }
+            });
+            // 等待服务端监听端口关闭
+            //f.channel().closeFuture().sync();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            log.error("NettyServer run error: {}", e.getMessage());
+        //}finally {
+            // 这里一定要注释掉，因为上面没有阻塞了，不注释的话，这里会直接关闭的
+            //workerGroup.shutdownGracefully();
+            //bossGroup.shutdownGracefully();
         }
+        return result;
     }
 }
