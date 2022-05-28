@@ -1,6 +1,8 @@
 package com.fcant.blog;
 
 import com.fcant.blog.bean.User;
+import com.fcant.blog.ckey.AESUtils;
+import com.fcant.blog.ckey.CompuToken;
 import com.fcant.blog.cyzk.AESUtil;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +34,30 @@ public class TestAES {
     }
 
     @Test
-    public void urlTest() throws Exception {
+    public void ckeyTest() throws Exception {
+        String lockdespselect = "FmUSj333j8bD50MMbsOOElTTi8Wqp57kMj4i/BKSzAGeWW87fq4sHaP9d5akwnbF";
+        String decryptingCode = AESUtils.decrypt("T#s)STq~whp]b52G", "Yw*M3^6JpV%0U@qk", lockdespselect);
+        byte[] arrayOfByte = hex2Bytes(decryptingCode);
+        CompuToken compuToken = new CompuToken();
+        Date date = new Date();
+        boolean bool1 = false;
+        String result = compuToken.TokenComput("", arrayOfByte, date, bool1);
+        System.out.println(result);
+    }
+
+    public static byte[] hex2Bytes(String paramString) {
+        byte[] arrayOfByte = new byte[paramString.length() / 2];
+        char[] arrayOfChar = paramString.toCharArray();
+        byte b1 = 0;
+        for (byte b2 = 0; b1 < arrayOfChar.length; b2++) {
+            arrayOfByte[b2] = (byte)Integer.parseInt(new String(arrayOfChar, b1, 2), 16);
+            b1 += 2;
+        }
+        return arrayOfByte;
+    }
+
+    @Test
+    public void cyzkApiKeyTest() throws Exception {
         String aesEncrypt = AESUtil.aesEncrypt("OSWMQVjbZrE6KTr6aU2tDewKANIkKsZLQ3ZAAM1LJUE25HxHRHviwPRNKwuyF+xJ", "g/t7lH9bzQpbXNkz4HM3wvri/XJi1W5DI");
         String url = URLEncoder.encode(aesEncrypt, "utf-8");
         System.out.println(url);
