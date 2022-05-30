@@ -1,9 +1,5 @@
 package com.fcant.blog.ckey;
 
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 /* loaded from: classes2.dex */
 public class FinalData {
     public static final String AES = "1";
