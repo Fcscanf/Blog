@@ -19,12 +19,12 @@ import java.util.HashMap;
 @Service
 public class CkeyServiceImpl implements CkeyService {
 
-    private static final HashMap<String, String> USER_TOKEN = new HashMap<String, String>(){{
-        put("fcant", "FmUSj333j8bD50MMbsOOElTTi8Wqp57kMj4i/BKSzAGeWW87fq4sHaP9d5akwnbF");
+    private static final HashMap<Integer, String> USER_TOKEN = new HashMap<Integer, String>(){{
+        put(1, "FmUSj333j8bD50MMbsOOElTTi8Wqp57kMj4i/BKSzAGeWW87fq4sHaP9d5akwnbF");
     }};
     @Override
-    public String getCkeyByUser(String user) {
-        String decryptingCode = AESUtils.decrypt(FinalData.PASSWORD, FinalData.STR_IV, USER_TOKEN.getOrDefault(user, "fcant"));
+    public String getCkeyByUser(Integer userId) {
+        String decryptingCode = AESUtils.decrypt(FinalData.PASSWORD, FinalData.STR_IV, USER_TOKEN.getOrDefault(userId, "FmUSj333j8bD50MMbsOOElTTi8Wqp57kMj4i/BKSzAGeWW87fq4sHaP9d5akwnbF"));
         byte[] arrayOfByte = hex2Bytes(decryptingCode);
         CompuToken compuToken = new CompuToken();
         Date date = new Date();

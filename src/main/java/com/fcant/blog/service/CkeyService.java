@@ -8,5 +8,5 @@ package com.fcant.blog.service;
  * @author Fcant 下午 22:51 2022/5/30/0030
  */
 public interface CkeyService {
-    String getCkeyByUser(String token);
+    String getCkeyByUser(Integer userId);
 }

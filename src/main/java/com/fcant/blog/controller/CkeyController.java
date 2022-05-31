@@ -22,8 +22,8 @@ public class CkeyController {
     @Autowired
     CkeyService ckeyService;
 
-    @GetMapping("/by/{user}")
-    public ResponseEntity<String> getCkeyByUser(@PathVariable String user) {
-        return ResponseEntity.ok(ckeyService.getCkeyByUser(user));
+    @GetMapping("/by/{userId}")
+    public ResponseEntity<String> getCkeyByUser(@PathVariable Integer userId) {
+        return ResponseEntity.ok(ckeyService.getCkeyByUser(userId));
     }
 }
