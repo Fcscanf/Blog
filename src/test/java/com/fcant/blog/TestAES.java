@@ -9,15 +9,23 @@ import org.junit.jupiter.api.Test;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * TestAES
@@ -50,7 +58,7 @@ public class TestAES {
         char[] arrayOfChar = paramString.toCharArray();
         byte b1 = 0;
         for (byte b2 = 0; b1 < arrayOfChar.length; b2++) {
-            arrayOfByte[b2] = (byte)Integer.parseInt(new String(arrayOfChar, b1, 2), 16);
+            arrayOfByte[b2] = (byte) Integer.parseInt(new String(arrayOfChar, b1, 2), 16);
             b1 += 2;
         }
         return arrayOfByte;
@@ -81,6 +89,41 @@ public class TestAES {
     }
 
     @Test
+    public void generatorDateTest() {
+        LocalDate startDate = LocalDate.parse("2021-06-15", DateTimeFormatter.ISO_LOCAL_DATE);
+        LocalDate endDate = LocalDate.parse("2021-08-16", DateTimeFormatter.ISO_LOCAL_DATE);
+        Period period = Period.between(startDate, endDate);
+        int months = period.getYears() * 12 + period.getMonths();
+        for (int i = 0; i <= months; i++) {
+            if (i == 0) {
+                System.out.println("Start:"+ startDate);
+                System.out.println("End:"+ startDate.with(TemporalAdjusters.lastDayOfMonth()));
+            }else if (i == months) {
+                System.out.println("Start:"+ startDate.plusMonths(i).with(TemporalAdjusters.firstDayOfMonth()));
+                System.out.println("End:"+ endDate);
+            }else {
+                System.out.println("Start:"+ startDate.plusMonths(i).with(TemporalAdjusters.firstDayOfMonth()));
+                System.out.println("End:"+ startDate.plusMonths(i).with(TemporalAdjusters.lastDayOfMonth()));
+            }
+        }
+    }
+
+    @Test
+    public void readFileTest() throws IOException {
+        InputStream inputStream = Files.newInputStream(Paths.get("D:\\LinkSpace\\Document\\WorkSpace\\Code\\IDEA\\Blog\\src\\main\\resources\\content.txt"));
+        BufferedReader in2 = new BufferedReader(new InputStreamReader(inputStream));
+        String line = "";
+        List<String[]> myDataList = new ArrayList<>();
+        while ((line=in2.readLine())!=null){
+            /* logger.info(line);*/
+            String[] details = line.split("\\|@\\|");
+            myDataList.add(details);
+            System.out.println(line);
+        }
+        System.out.println(myDataList);
+    }
+
+    @Test
     public void Test() {
         User user = new User("1", "2");
         System.out.println("before:" + user);
@@ -93,3 +136,4 @@ public class TestAES {
         user.setGender("4");
     }
 }
+
