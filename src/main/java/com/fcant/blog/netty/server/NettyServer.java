@@ -9,6 +9,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -39,9 +40,10 @@ public class NettyServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
+                            ch.pipeline().addLast(new LoggingHandler());
                             ch.pipeline().addLast(new StringEncoder());
-                            ch.pipeline().addLast(new StringDecoder());
                             ch.pipeline().addLast(new CommandHandler());
+                            ch.pipeline().addLast(new StringDecoder());
                             ch.pipeline().addLast(new MessageServerHandler());
                         }
                     });

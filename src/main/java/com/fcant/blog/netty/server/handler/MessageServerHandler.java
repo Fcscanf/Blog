@@ -32,7 +32,7 @@ public class MessageServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         ByteBuf byteBuf = Unpooled.buffer();
-        ClassPathResource classPathResource = new ClassPathResource("test.xml");
+        ClassPathResource classPathResource = new ClassPathResource("UserMapper.xml");
         InputStream inputStream = classPathResource.getInputStream();
         String content = new BufferedReader(new InputStreamReader(inputStream)).lines().collect(Collectors.joining("\n"));
         int modLen = content.getBytes(StandardCharsets.UTF_8).length % 128;

@@ -47,8 +47,8 @@ public class SocketServer {
         }
         log.info("Receive Content:" + stringBuilder.toString());
         OutputStream outputStream = socket.getOutputStream();
-//        FileInputStream fileInputStream = new FileInputStream("D:\\LinkSpace\\Document\\WorkSpace\\Code\\IDEA\\Blog\\src\\main\\java\\com\\fcant\\blog\\socket\\test.xml");
-        ClassPathResource classPathResource = new ClassPathResource("test.xml");
+//        FileInputStream fileInputStream = new FileInputStream("D:\\LinkSpace\\Document\\WorkSpace\\Code\\IDEA\\Blog\\src\\main\\java\\com\\fcant\\blog\\socket\\UserMapper.xml");
+        ClassPathResource classPathResource = new ClassPathResource("UserMapper.xml");
         InputStream inputStream = classPathResource.getInputStream();
 //        byte[] bytes = new byte[1024];
 //        int readLength = -1;
