@@ -3,6 +3,3 @@ spring:
     name: blog
   profiles:
     active: uat
-  rabbitmq:
-    host: 106.15.54.20
-    port: 5672
